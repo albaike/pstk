@@ -3,6 +3,7 @@ name = "pstk"
 version = "0.0.1"
 authors = ["albaike"]
 description = "A toolkit for developing Postgres schemas & extensions."
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
