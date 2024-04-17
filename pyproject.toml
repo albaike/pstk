@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "pstk"
+version = "0.0.1"
+authors = ["Calvin Koder"]
+description = "Postgres project toolkit."
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+psycopg2 = "^2.9.9"
+python-dotenv = "^1.0.1"
+
+[tool.poetry.scripts]
+pstk = "pstk:main_cli"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
