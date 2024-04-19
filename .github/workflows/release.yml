@@ -3,7 +3,7 @@ name: Publish package release
 on:
   push:
     branches:
-      - master
+      - release
 
 jobs:
     pypi-publish:
