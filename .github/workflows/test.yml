@@ -28,6 +28,7 @@ jobs:
         - name: Install project binary
           run: |
             poetry install
+            find /usr -type f -name pstk
 
         - name: Install Postgres-16
           run: |
