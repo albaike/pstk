@@ -37,7 +37,7 @@ jobs:
 
         - name: Verify Postgres-16
           run: |
-            psql --version
+            sudo systemctl start postgresql
             sudo systemctl status postgresql
 
         - name: Install and test extension
