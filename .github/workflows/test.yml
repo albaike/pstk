@@ -42,4 +42,6 @@ jobs:
 
         - name: Install and test extension
           run: |
-            pstk --extension --schema-path=postxml--1.0.sql /home/ion/src/postxml test
+            git clone https://github.com/albaike/postxml
+            cd postxml
+            pstk --extension --schema-path=postxml--1.0.sql . test
