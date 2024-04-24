@@ -31,7 +31,7 @@ jobs:
 
         - name: Find project binary
           run: |
-            find / -type f -name pstk
+            find / -type f -name pstk 2>/dev/null
 
         - name: Install Postgres-16
           run: |
