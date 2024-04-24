@@ -30,8 +30,15 @@ jobs:
             sudo apt install -y postgresql-common
             sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
             sudo apt install -y postgresql-16 postgresql-client-16
+
+        - name: Remove Postgres-14
+          run: |
             sudo apt remove -y postgresql-14 postgresql-client-14
-            sudo systemctl start postgresql
+
+        - name: Verify Postgres-16
+          run: |
+            psql --version
+            sudo systemctl status postgresql
 
         - name: Install and test extension
           run: |
