@@ -7,7 +7,7 @@ RUN apt install -y gcc cmake libxslt1-dev libxslt1.1 libxml2 libxml2-dev postgre
 RUN echo 'postgres ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN echo a
 RUN git clone https://github.com/albaike/postxml .
-# RUN git checkout afee9333596330dbb8eb62113ed264b0c4c7edbf
+RUN git checkout afee9333596330dbb8eb62113ed264b0c4c7edbf
 RUN chown -R postgres:postgres .
 RUN apt remove -y git
 
