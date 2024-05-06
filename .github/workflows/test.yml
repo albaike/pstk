@@ -14,8 +14,11 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v2
 
+        - name: Build the pstk image
+          run: docker build -t pstk .
+
         - name: Build the test image
-          run: docker build -t test .
+          run: docker build -t test --build-context pstk:latest=docker-image://pstk -f Dockerfile.test .
 
         - name: Run the test
           run: docker run -e POSTGRES_PASSWORD=pw test
