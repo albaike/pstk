@@ -4,7 +4,18 @@ from pathlib import Path
 import re
 from dotenv import load_dotenv
 import os
+import subprocess
 import shutil
+
+def exec_sudo(*args):
+    val = subprocess.run(
+        ('sudo', *args),
+        # check=True,
+        capture_output=True,
+    )
+    # print(f'`{" ".join(args)}`: {val}')
+    if val.returncode != 0:
+        raise Exception(val)
 
 def main(
     root: Path,
@@ -24,12 +35,11 @@ def main(
         if (value := os.getenv(f'POSTGRES_{key.upper()}')):
             conn_args[key] = value
 
+    conn_args['host'] = host
+    conn_args['port'] = port
+
     print(conn_args)
-    conn = psycopg2.connect(
-        host=host,
-        port=port,
-        **conn_args,
-    )
+    conn = psycopg2.connect(**conn_args)
 
     schema = root / schema_path
 
@@ -47,8 +57,18 @@ def main(
     if files_path.exists():
         for file_path in files_path.iterdir():
             tmp_file_path = tmp_path / file_path.name
+            # print(f'Copy {file_path} to {tmp_file_path}')
             shutil.copy(file_path, tmp_file_path)
-            tmp_file_path.chmod(700)
+            exec_sudo('chmod', '700', str(tmp_file_path))
+            exec_sudo('chown', 'postgres:postgres', str(tmp_file_path))
+            # tmp_file_path.chmod(700)
+
+    # os.system('ls -l /tmp')
+
+    if extension:
+        os.chdir(root)
+        print(f'Building extension {schema_name}.')
+        exec_sudo('make')
 
     with conn.cursor() as cur:
         if extension:
@@ -65,7 +85,7 @@ def main(
                     raise Exception(f'Extension {schema_name} already exists. Run with --replace to replace.')
 
             print(f'Installing binaries from extension {schema_name}.')
-            os.system('sudo make install')
+            exec_sudo('make', 'install')
 
             print(f'Creating extension {schema_name}.')
             cur.execute(f'create extension {schema_name}')
@@ -103,6 +123,7 @@ def main_cli():
     parser.add_argument('--password', default='postgres')
     parser.add_argument('--host', default='localhost')
     parser.add_argument('--port', type=int, default=5432)
+    parser.add_argument('--socket')
     parser.add_argument('--replace', action='store_true')
     parser.add_argument('--extension', action='store_true')
     parser.add_argument('--schema-path', default='schema.sql')
