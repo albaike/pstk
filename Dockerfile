@@ -8,7 +8,9 @@ USER postgres
 WORKDIR /app
 COPY pyproject.toml /app
 RUN poetry install --no-root
-COPY . /app
-RUN poetry install
+COPY pstk /app/pstk
+COPY README.md /app
+RUN poetry build && \
+    poetry install
 RUN echo "export POETRY_PATH=$(poetry env info --path)" > ~/poetry_path.sh && \
     chmod +x ~/poetry_path.sh
