@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pstk"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["albaike"]
 description = "A toolkit for developing Postgres schemas & extensions."
 readme = "README.md"
