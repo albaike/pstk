@@ -17,7 +17,7 @@ RUN echo "export POETRY_PATH=$(poetry env info --path)" > ~/.env && \
     chmod +x ~/.env
 
 USER root
-COPY docker_pstk.sh /util/test.sh
-RUN chmod +x /util/test.sh
+COPY docker_pstk.sh /docker-entrypoint-initdb.d/
+RUN chmod +x /docker-entrypoint-initdb.d/docker_pstk.sh
 COPY docker_postgres.sh /
 RUN chmod +x /docker_postgres.sh

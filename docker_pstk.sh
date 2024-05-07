@@ -11,6 +11,5 @@ psql -v ON_ERROR_STOP=1
 
 echo "PostgreSQL started. Running pstk..."
 source ~/.env
-cat ~/.env
 
 $POETRY_PATH/bin/pstk  --host=/var/run/postgresql $PSTK_ARGS
